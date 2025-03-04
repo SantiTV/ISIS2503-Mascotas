@@ -47,7 +47,6 @@ function Mascotas() {
           <p><strong>Id:</strong> {selectedMascota.id}</p>
           <p><strong>Nombre:</strong> {selectedMascota.nombre}</p>
           <p><strong>Raza:</strong> {selectedMascota.raza}</p>
-          <p><strong>Edad:</strong> {selectedMascota.edad}</p>
           <p><strong>Descripción:</strong> {selectedMascota.descripcion}</p>
         </div>
       )}
