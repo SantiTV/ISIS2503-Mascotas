@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-
 function App() {
   // Estado para los campos
   const [email, setEmail] = useState('');
@@ -13,16 +12,27 @@ function App() {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  // Validación del correo cuando se hace submit
+  // Validación del correo
   const validateEmail = (email) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
+    if (email === '') return false;
+    const atPosition = email.indexOf('@');
+    const dotPosition = email.lastIndexOf('.');
+    return atPosition > 0 && dotPosition > atPosition + 1 && dotPosition < email.length - 1;
   };
 
-  // Validación de la contraseña cuando el usuario escribe
+  // Validación de la contraseña
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{9,}$/;
-    return passwordRegex.test(password);
+    if (password.length < 9) return false;
+    let hasLetter = false;
+    let hasNumber = false;
+    for (let i = 0; i < password.length; i++) {
+      if (isNaN(password[i])) {
+        hasLetter = true;
+      } else {
+        hasNumber = true;
+      }
+    }
+    return hasLetter && hasNumber;
   };
 
   // Manejo de cambio de correo
@@ -36,7 +46,7 @@ function App() {
     const newPassword = event.target.value;
     setPassword(newPassword);
 
-    // Validación en tiempo real de la contraseña
+    // Validación de la contraseña
     if (!validatePassword(newPassword)) {
       setPasswordError('La contraseña debe tener al menos 9 caracteres, contener al menos un número y una letra.');
     } else {
@@ -53,11 +63,6 @@ function App() {
       setEmailError('Por favor ingresa un correo electrónico válido.');
     } else {
       setEmailError('');
-    }
-
-    // Si el formulario es válido
-    if (validateEmail(email) && validatePassword(password)) {
-      alert(`Formulario enviado con éxito:\nCorreo: ${email}\nContraseña: ${password}\nClase favorita: ${favoriteClass}`);
     }
   };
 
